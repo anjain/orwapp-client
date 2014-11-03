@@ -1,0 +1,58 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Payroll</h1>
+</div>
+<div class="wrapper-md" ng-controller="">
+  <div class="row" ng-init="userdetails=app.user">
+  	
+  	<div class="col-lg-4">
+      <div class="panel">
+      	<div class="panel-body">
+          <div class="clearfix text-center m-t">
+            <div class="inline">
+              <div ui-jq="easyPieChart" ui-options="{
+                    percent: 75,
+                    lineWidth: 5,
+                    trackColor: '{{app.color.light}}',
+                    barColor: '{{app.color.info}}',
+                    scaleColor: false,
+                    color: '{{app.color.dark}}',
+                    size: 134,
+                    lineCap: 'butt',
+                    rotate: -90,
+                    animate: 1000
+                  }">
+                <div class="thumb-xl">
+                  <img src="img/a8.jpg" class="img-circle" alt="...">
+                </div>
+              </div>
+              <div class="h4 m-t m-b-xs">{{userdetails.name}}</div>
+              <small class="text-muted m-b">{{userdetails.email}}</small>
+            </div>                      
+          </div>
+        </div>
+        <footer class="panel-footer bg-info text-center no-padder">
+          <div class="row no-gutter">
+            <input type="text" ng-model="selected" typeahead="empvalue as empvalue.name for empvalue in employees | filter:$viewValue | limitTo:8 " typeahead-min-length='3' class="form-control w-xl m-l m-r m-t m-b" placeholder="Search User" typeahead-on-select="getSelectedUser(selected)">
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="panel b-a"> 
+      	<div class="panel-heading no-border bg-primary">          
+          <span class="text-lt">Payroll Process</span>
+          <a href ng-hide="addsubcat" ng-click="addsubcat = true">
+          	<i class="fa fa-plus pull-right padder-t-xs"></i>
+      	  </a>
+        </div>      
+        <div class="item m-l-n-xxs m-r-n-xxs">          
+          <img src="img/c0.jpg" class="img-full imgheight-l">
+        </div>
+       
+
+      </div>
+	</div>
+
+  </div>
+</div>

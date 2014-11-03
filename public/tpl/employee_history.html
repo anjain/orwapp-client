@@ -1,0 +1,186 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">History</h1>
+</div>
+<div class="wrapper-md" ng-controller="EmployeesCtrl">
+  <div class="row" ng-init="userdetails=app.user">
+  	<div class="col-lg-4">
+      <div class="panel">
+      	<div class="panel-body">
+          <div class="clearfix text-center m-t">
+            <div class="inline">
+              <div ui-jq="easyPieChart" ui-options="{
+                    percent: 75,
+                    lineWidth: 5,
+                    trackColor: '{{app.color.light}}',
+                    barColor: '{{app.color.info}}',
+                    scaleColor: false,
+                    color: '{{app.color.dark}}',
+                    size: 134,
+                    lineCap: 'butt',
+                    rotate: -90,
+                    animate: 1000
+                  }">
+                <div class="thumb-xl">
+                  <img src="img/a8.jpg" class="img-circle" alt="...">
+                </div>
+              </div>
+              <div class="h4 m-t m-b-xs">{{userdetails.name}}</div>
+              <small class="text-muted m-b">{{userdetails.email}}</small>
+            </div>                      
+          </div>
+        </div>
+        <footer class="panel-footer bg-info text-center no-padder">
+          <div class="row no-gutter">
+            <input type="text" ng-model="selected" typeahead="empvalue as empvalue.name for empvalue in employees | filter:$viewValue | limitTo:8 " typeahead-min-length='3' class="form-control w-xl m-l m-r m-t m-b" placeholder="Search User" typeahead-on-select="getSelectedUser(selected)">
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div ng-repeat="allcategory in categories">
+
+	    <div class="col-md-4">
+	      <div class="panel b-a"> 
+	      	<div class="panel-heading no-border bg-primary">          
+	          <span class="text-lt">{{allcategory.name}}</span>
+	          <a href ng-hide="addsubcat" ng-click="addsubcat = true">
+	          	<i class="fa fa-plus pull-right padder-t-xs"></i>
+	      	  </a>
+	        </div>      
+	        <div class="item m-l-n-xxs m-r-n-xxs">          
+	          <img src="img/c0.jpg" class="img-full imgheight">
+	        </div>
+	       <form name="addsubcatForm" class="form-validation">
+	        <div ng-show="addsubcat">
+	        	<div class="pull-right padder padder-v">
+					<button type="submit" class="save-btn" ng-disabled="addsubcatForm.$invalid" ng-click="addSubcatChoice(userdetails._id,addemphistory); addsubcat=!addsubcat;"><i class="fa fa-save text-success padder-t-xs"></i></button>
+        			<a href ng-click="addsubcat=!addsubcat"><i class="fa fa-times text-info padder-t-xs"></i></a>
+				</div>
+	        	<div class="hbox b-b b-light text-sm padder padder-v">
+	        		<input type="hidden" ng-init="addemphistory.category = allcategory.name" ng-model="addemphistory.category" >
+	        		<input type="hidden" ng-init="addemphistory.category_id = allcategory._id" ng-model="addemphistory.category_id">
+					<select class="form-control w-md m-b-n-sm" ng-init="addemphistory.category_value = ''" ng-model="addemphistory.category_value" ng-options="subcategory.name as subcategory.name for subcategory in allcategory.values" ng-required="true"> 
+		            </select>				            
+					<br>
+					<span class="text-muted ng-binding">
+						<div ng-controller="DatepickerDemoCtrl">
+		                   <a class="list-group-item" href>
+		                    <span class="infostyle w-s">
+		                        <div class="input-group">
+		                        <input type="text" class="form-control h5 editinput" datepicker-popup="{{newformat}}" ng-init="addemphistory.effective_from = ''" ng-model="addemphistory.effective_from" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+		                        <span class="input-group-btn">
+		                          <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		                        </span>
+		                      </div>
+		                    </span>	
+		                    <span class="text-muted">			                    
+		                    	Effective From: 
+		                    </span>
+		                   </a>
+		                </div>
+						<span>
+							<div ng-controller="DatepickerDemoCtrl">
+			                   <a class="list-group-item" href>
+			                    <span class="infostyle w-s">
+			                        <div class="input-group">
+			                        <input type="text" class="form-control h5 editinput" datepicker-popup="{{newformat}}" ng-init="addemphistory.effective_to = ''" ng-model="addemphistory.effective_to" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ui-validate=" '$value > addemphistory.effective_from' " />
+			                        <span class="input-group-btn">
+			                          <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+			                        </span>			                       
+			                      </div>
+			                    </span>
+			                    <span class="text-muted">			                    
+		                    		Effective To: 
+		                    	</span> 
+			                   </a>
+			                </div>
+						</span>
+					</span>
+					<br>
+					
+		     	</div>
+	        </div>
+	       </form>
+
+	        <div ng-repeat="emphistory in userdetails.employee_history | orderBy:'-effective_from'" ng-if="allcategory._id == emphistory.category_id"  class="appendsub">   	
+
+
+	        	<div ng-hide="editEnable">
+		        	<div class="pull-right padder padder-v">
+						<a ng-click="editEnable=!editEnable"><i class="fa fa-pencil-square-o padder-t-xs text-info m-r-xs"></i></a>
+						<a ng-click="deleteSubCatChoice(userdetails._id,emphistory)"><i class="fa fa-trash-o pull-right padder-t-xs text-danger"></i></a>
+					</div>
+		        	<div class="hbox b-b b-light text-sm padder padder-v">  					
+						<p class="">
+							<span class="big text-success">{{emphistory.category_value}}</span>
+							<br>
+							<span class="text-muted">
+							{{emphistory.effective_from | date:'dd MMM yyyy'}}
+							<span ng-hide="emphistory.effective_to == null">- {{emphistory.effective_to | date:'dd MMM yyyy'}}</span>
+							</span>
+							<br>
+						</p>
+		        	</div>
+		        </div> 
+		       <form name="editsubcatForm" class="form-validation">
+		        <div ng-show="editEnable"> 
+		       		<div class="pull-right padder padder-v">		       			
+		       			<button type="submit" class="save-btn" ng-disabled="editsubcatForm.$invalid" ng-click="updateSubcatChoice(userdetails._id,emphistory); editEnable=!editEnable; "><i class="fa fa-save text-success padder-t-xs"></i></button>
+						<!-- <a href ng-click="updateSubcatChoice(userdetails._id,emphistory); editEnable=!editEnable; "><i class="fa fa-save text-success padder-t-xs"></i></a> -->
+            			<a href ng-click="editEnable=!editEnable"><i class="fa fa-times text-info padder-t-xs"></i></a>
+					</div>
+		        	<div class="hbox b-b b-light text-sm padder padder-v">  					
+							
+							<span class="big text-success ng-binding">{{emphistory.category_value}}</span>
+							<!-- <select class="form-control w-md m-b-n-sm" ng-model="emphistory.category_value" ng-options="subcategory.name as subcategory.name for subcategory in allcategory.values"> 
+				            </select>	 -->			            
+							<br>
+							<span class="text-muted ng-binding">
+								<div ng-controller="DatepickerDemoCtrl">
+				                   <a class="list-group-item" href>
+				                    <span class="infostyle w-s">
+				                        <div class="input-group">
+				                        <input type="text" class="form-control h5 editinput" datepicker-popup="{{newformat}}" ng-model="emphistory.effective_from" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				                        <span class="input-group-btn">
+				                          <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				                        </span>
+				                      </div>
+				                    </span>	
+				                    <span class="text-muted">			                    
+				                    	Effective From: 
+				                    </span>
+				                   </a>
+				                </div>
+								<span>
+									<div ng-controller="DatepickerDemoCtrl">
+					                   <a class="list-group-item" href>
+					                    <span class="infostyle w-s">
+					                        <div class="input-group">
+					                        <input type="text" class="form-control h5 editinput" datepicker-popup="{{newformat}}" ng-model="emphistory.effective_to" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close"ui-validate=" '$value > emphistory.effective_from' " />
+					                        <span class="input-group-btn">
+					                          <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					                        </span>
+					                      </div>
+					                    </span>
+					                    <span class="text-muted">			                    
+				                    		Effective To: 
+				                    	</span> 
+					                   </a>
+					                </div>
+								</span>
+							</span>
+							<br>
+						
+			     	</div>
+		        </div>
+		      </form>
+	        </div>
+	        
+	      </div>
+	    </div>
+
+	    <div ng-if="($index+2)%3 == 0" class="clear"></div>
+    </div>
+  </div>
+</div>
+  

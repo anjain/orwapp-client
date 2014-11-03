@@ -1,0 +1,457 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Profile</h1>
+</div>
+<div class="wrapper-md" ng-controller="EmployeeDetailCtrl">  
+  <div class="row" ng-repeat="employee in employees | filter:{_id:filterEmpId}">   
+
+    <div class="col-lg-12">
+    <div class="panel">  
+      <div style="background:url(img/c4.jpg) center center; background-size:cover">
+        <div class="wrapper-lg bg-white-opacity">
+          <div class="row m-t">
+            <div class="col-sm-7">
+              <a href class="thumb-lg pull-left m-r">
+                <img src="img/a0.jpg" class="img-circle">
+              </a>
+              <div class="clear m-b">
+                <div class="m-b m-t-sm">
+                  <span class="h3 text-black">{{employee.name}}</span>                
+                </div>
+                <div class="m-b">
+                  <small class="m-l">{{employee.username}}</small>               
+                </div> 
+                <div class="m-b">
+                  <small class="m-l">{{employee.email}}</small>               
+                </div>              
+              </div>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+
+
+    <!-- Left column -->
+    <div class="col-sm-6">
+      <div class="row">   
+        <!-- Personal information -->
+        <div class="col-sm-12">        
+          <div class="panel panel-default" ng-hide="personalInfoEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">            
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Personal Information 
+                    <a ng-click="personalInfoEditorEnabled=!personalInfoEditorEnabled"><i class="fa fa-pencil-square-o fa-sm pull-right text-info m-r-xs"></i></a>
+                  </div>             
+                </div>
+              </div>
+            </div>
+            <div class="list-group no-radius alt">
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.fathers_name}}</span>
+                <i class="fa fa-male fa-fw text-muted"></i> 
+                Father's Name
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.mothers_name}}</span>
+                <i class="fa fa-female fa-fw text-muted"></i> 
+                Mother's Name
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.spouse_name}}</span>
+                <i class="fa fa-user fa-fw text-muted"></i> 
+                Spouse's Name
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.dob | date:'yyyy-MM-dd'}}</span>
+                <i class="fa fa-gift fa-fw text-muted"></i> 
+                Date Of Birth
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.contact_number}}</span>
+                <i class="fa fa-phone fa-fw text-muted"></i> 
+                Contact Number
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.emergency_contact}}</span>
+                <i class="fa fa-phone fa-fw text-muted"></i> 
+                Emergency Contact
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.alternate_email}}</span>
+                <i class="fa fa-envelope fa-fw text-muted"></i> 
+                Alternate Email
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.blood_group}}</span>
+                <i class="fa fa-medkit fa-fw text-muted"></i> 
+                Blood Group
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.permanent_addr}}</span>
+                <i class="fa fa-building fa-fw text-muted"></i> 
+                Permanent Address
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.personal_info.present_addr}}</span>
+                <i class="fa fa-building fa-fw text-muted"></i> 
+                Present Address
+              </a>
+            </div>
+          </div>
+          <form name="personalinfoForm" class="form-validation">
+            <div class="panel panel-default" ng-show="personalInfoEditorEnabled">
+              <div class="panel-heading">
+                <div class="clearfix">            
+                  <div class="clear">
+                    <div class="h3 m-t-xs m-b-xs">
+                      Personal Information 
+                      <button type="submit" class="pull-right save-btn" ng-disabled="personalinfoForm.$invalid" ng-click="updateValues(filterEmpId,employee); personalInfoEditorEnabled=!personalInfoEditorEnabled"><i class="fa fa-save fa-sm text-success m-r"></i></button>
+                      <a ng-click="personalInfoEditorEnabled=!personalInfoEditorEnabled" href="">
+                        <i class="fa fa-times fa-sm pull-right text-info m-r-xs"></i>
+                      </a>
+                    </div>             
+                  </div>
+                </div>
+              </div>
+              <div class="list-group no-radius alt">
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.fathers_name" /></span>
+                  <i class="fa fa-male fa-fw text-muted"></i> 
+                  Father's Name
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.mothers_name" /></span>
+                  <i class="fa fa-female fa-fw text-muted"></i> 
+                  Mother's Name
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.spouse_name" /></span>
+                  <i class="fa fa-user fa-fw text-muted"></i> 
+                  Spouse's Name
+                </a>            
+                <div ng-controller="DatepickerDemoCtrl">
+                   <a class="list-group-item" href>
+                    <span class="infostyle w-s">
+                        <div class="input-group">
+                        <input type="text" class="form-control h5 editinput" datepicker-popup="{{format}}" ng-model="employee.personal_info.dob" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </div>
+                    </span>
+                    <i class="fa fa-gift fa-fw text-muted"></i> 
+                    Date of Birth
+                   </a>
+                </div>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="number" maxlength="10" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.contact_number" /></span>
+                  <i class="fa fa-phone fa-fw text-muted"></i> 
+                  Contact Number
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="number" maxlength="10" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.emergency_contact" /></span>
+                  <i class="fa fa-phone fa-fw text-muted"></i> 
+                  Emergency Contact
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="email" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.alternate_email" /></span>
+                  <i class="fa fa-envelope fa-fw text-muted"></i> 
+                  Alternate Email
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.blood_group" /></span>             
+                  <i class="fa fa-medkit fa-fw text-muted"></i> 
+                  Blood Group
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><textarea class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.permanent_addr"></textarea></span>
+                  <i class="fa fa-building fa-fw text-muted"></i> 
+                  Permanent Address
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><textarea class="form-control h5 m-b-xs editinput" ng-model="employee.personal_info.present_addr"></textarea></span>
+                  <i class="fa fa-building fa-fw text-muted"></i> 
+                  Present Address
+                </a>
+              </div>
+            </div> 
+          </form>     
+        </div>      
+
+       <!-- Joining Details Information -->
+        <div class="col-sm-12">
+          <div class="panel panel-default" ng-hide="joiningEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">           
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Joining Details 
+                    <a ng-click="joiningEditorEnabled=!joiningEditorEnabled"><i class="fa fa-pencil-square-o fa-sm pull-right text-info m-r-xs"></i></a>                
+                  </div>              
+                </div>
+              </div>
+            </div>
+            <div class="list-group no-radius alt">
+               <a class="list-group-item" href>
+                <span class="infostyle">{{employee.joining_details.doj | date:'yyyy-MM-dd'}}</span>
+                <i class="fa fa-calendar fa-fw text-muted"></i> 
+                Date of Joining
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{employee.joining_details.doc | date:'yyyy-MM-dd'}}</span>
+                <i class="fa fa-calendar-o fa-fw text-muted"></i> 
+                Date of Confirmation
+              </a>
+            </div>
+          </div>  
+          <form name="joiningForm" class="form-validation">   
+          <div class="panel panel-default" ng-show="joiningEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">           
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Joining Details 
+                    <button type="submit" class="pull-right save-btn" ng-disabled="joiningForm.$invalid" ng-click="updateValues(filterEmpId,employee); joiningEditorEnabled=!joiningEditorEnabled"><i class="fa fa-save fa-sm text-success m-r"></i></button>
+                    <a ng-click="joiningEditorEnabled=!joiningEditorEnabled" href="">
+                      <i class="fa fa-times fa-sm pull-right text-info m-r-xs"></i>
+                    </a>
+                  </div>              
+                </div>
+              </div>
+            </div>        
+            <div class="list-group no-radius alt">
+              <div ng-controller="DatepickerDemoCtrl">
+               <a class="list-group-item" href>
+                <span class="infostyle w-s">
+                   <div class="input-group">
+                      <input type="text" class="form-control h5 editinput" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-model="employee.joining_details.doj" ng-required="false" close-text="Close" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </div>
+                </span>
+                <i class="fa fa-calendar fa-fw text-muted"></i> 
+                Date of Joining
+               </a>
+              </div>
+              <div ng-controller="DatepickerDemoCtrl">
+               <a class="list-group-item" href>
+                <span class="infostyle w-s">               
+                   <div class="input-group">
+                      <input type="text" class="form-control h5 editinput" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-model="employee.joining_details.doc" ng-required="false" close-text="Close" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default m-b-xs editinput" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </div>
+                </span>
+                <i class="fa fa-calendar-o fa-fw text-muted"></i> 
+                Date of Confirmation
+               </a>
+              </div>
+            </div>
+          </div>    
+          </form>       
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- Right column -->
+    <div class="col-sm-6">    
+      <div class="row">   
+        <!-- Employee Identity Information -->
+        <div class="col-sm-12">
+          <div class="panel panel-default" ng-hide="empIdentityEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">           
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Employee Identity 
+                    <a ng-click="empIdentityEditorEnabled=!empIdentityEditorEnabled"><i class="fa fa-pencil-square-o fa-sm pull-right text-info m-r-xs"></i></a>                
+                  </div>              
+                </div>
+              </div>
+            </div>
+            <!-- if there is no data for first tym to repeat then-->
+            <div class="panel-heading list-group no-radius alt" ng-if="employee.employee_identity.length == 0">
+              <a class="list-group-item" href>
+                <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                Name on Identity card
+              </a>
+              <a class="list-group-item" href>
+                <i class="fa fa-pencil fa-fw text-muted"></i> 
+                Identity No.
+              </a>
+            </div>
+            <!-- end -->
+            <!-- data using ng-repeat -->
+            <div class="panel-heading list-group no-radius alt" ng-repeat="empidentity in employee.employee_identity">
+                <div class="h4 m-t-xs m-b-xs  m-l-md">
+                  {{empidentity.identity_type}} 
+                </div>            
+              <a class="list-group-item" href>
+                <span class="infostyle">{{empidentity.name_on_identity}}</span>
+                <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                Name on Identity card
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{empidentity.identity_no}}</span>
+                <i class="fa fa-pencil fa-fw text-muted"></i> 
+                Identity No.
+              </a>
+            </div>
+            <!-- end -->
+          </div>
+          <form name="identityForm" class="form-validation"> 
+          <div class="panel panel-default" ng-show="empIdentityEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">           
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Employee Identity 
+                    <button type="submit" class="pull-right save-btn" ng-disabled="identityForm.$invalid" ng-click="updateIdentityValues(filterEmpId,employee,empidentity); empIdentityEditorEnabled=!empIdentityEditorEnabled"><i class="fa fa-save fa-sm text-success m-r"></i></button>
+                    <a ng-click="empIdentityEditorEnabled=!empIdentityEditorEnabled" href="">
+                      <i class="fa fa-times fa-sm pull-right text-info m-r-xs"></i>
+                    </a>                
+                  </div>              
+                </div>
+              </div>
+            </div>
+            <!-- if there is no data for first tym to repeat then-->
+            <div class="panel-heading list-group no-radius alt" ng-if="employee.employee_identity.length == 0">
+              <input type="text" class="form-control w-s h5 m-b-xs editinput" ng-model="empidentity.identity_type" placeholder="Identity Type" />
+              <a class="list-group-item" href>
+                <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="empidentity.name_on_identity" /></span>
+                <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                Name on Identity card
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="empidentity.identity_no" /></span>
+                <i class="fa fa-pencil fa-fw text-muted"></i> 
+                Identity No.
+              </a>
+            </div>
+            <!-- end -->
+            <!-- data using ng-repeat -->
+            <div class="panel-heading list-group no-radius alt" ng-repeat="empidentity in employee.employee_identity">
+                  <input type="text" class="form-control w-s h5 m-b-xs editinput" ng-model="empidentity.identity_type"  placeholder="Identity Type"/> 
+              <a class="list-group-item" href>
+                <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="empidentity.name_on_identity" /></span>
+                <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                Name on Identity card
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="empidentity.identity_no" /></span>
+                <i class="fa fa-pencil fa-fw text-muted"></i> 
+                Identity No.
+              </a>
+            </div>
+            <!-- end -->
+          </div>   
+          </form>  
+        </div>
+
+        <!-- Bank Details Information -->
+        <div class="col-sm-12">
+          <div class="panel panel-default"  ng-hide="bankDetailsEditorEnabled">
+            <div class="panel-heading">
+              <div class="clearfix">           
+                <div class="clear">
+                  <div class="h3 m-t-xs m-b-xs">
+                    Bank Details
+                    <a ng-click="bankDetailsEditorEnabled=!bankDetailsEditorEnabled"><i class="fa fa-pencil-square-o fa-sm pull-right text-info m-r-xs"></i></a>
+                  </div>              
+                </div>
+              </div>
+            </div>
+            <div class="panel-heading list-group no-radius alt" ng-repeat="bank in employee.bank_details track by $index">
+               <div class="h4 m-t-xs m-b-xs  m-l-md">
+                  {{bank.bank_name}} <small>{{bank.address}}</small>
+                </div>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{bank.ifsc_code}}</span>
+                <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                IFSC Code
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{bank.account_no}}</span>
+                <i class="fa fa-pencil fa-fw text-muted"></i> 
+                Account No.
+              </a>
+              <a class="list-group-item" href>
+                <span class="infostyle">{{bank.account_type}}</span>
+                <i class="fa fa-eye fa-fw text-muted"></i> 
+                Account Type
+              </a>
+            </div>        
+          </div>
+          <form name="bankdetailsForm" class="form-validation"> 
+            <div class="panel panel-default"  ng-show="bankDetailsEditorEnabled">
+              <div class="panel-heading">
+                <div class="clearfix">           
+                  <div class="clear">
+                    <div class="h3 m-t-xs m-b-xs">
+                      Bank Details
+                      <button type="submit" class="pull-right save-btn" ng-disabled="bankdetailsForm.$invalid" ng-click="updateBankValues(filterEmpId,employee,bank); bankDetailsEditorEnabled=!bankDetailsEditorEnabled"><i class="fa fa-save fa-sm text-success m-r"></i></button>
+                      <a ng-click="bankDetailsEditorEnabled=!bankDetailsEditorEnabled" href="">
+                        <i class="fa fa-times fa-sm pull-right text-info m-r-xs"></i>
+                      </a>
+                    </div>              
+                  </div>
+                </div>
+              </div>
+              <!-- if bankdetails are blank(first time) -->
+              <div class="panel-heading list-group no-radius alt" ng-if="employee.bank_details.length == 0">
+                
+                 <input type="text" class="form-control w-s m-r app-aside h5 m-b-xs editinput" ng-model="bank.bank_name" placeholder="Bank Name"/>
+                     <input type="text" class="form-control w-s h5 m-b-xs editinput" ng-model="bank.address" placeholder="Bank Branch"/>                             
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="bank.ifsc_code" /></span>
+                  <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                  IFSC Code
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="number" class="form-control h5 m-b-xs editinput" ng-model="bank.account_no" /></span>
+                  <i class="fa fa-pencil fa-fw text-muted"></i> 
+                  Account No.
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="bank.account_type" /></span>
+                  <i class="fa fa-eye fa-fw text-muted"></i> 
+                  Account Type
+                </a>
+              </div>        
+              <!-- end -->
+              <div class="panel-heading list-group no-radius alt" ng-repeat="bank in employee.bank_details track by $index">
+                 <input type="text" class="form-control w-s m-r app-aside h5 m-b-xs editinput" ng-model="bank.bank_name"  placeholder="Bank Name"/>
+                <input type="text" class="form-control w-s h5 m-b-xs editinput" ng-model="bank.address"  placeholder="Bank Branch"/>            
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="bank.ifsc_code" /></span>
+                  <i class="fa fa-pencil-square-o fa-fw text-muted"></i> 
+                  IFSC Code
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="number" class="form-control h5 m-b-xs editinput" ng-model="bank.account_no" /></span>
+                  <i class="fa fa-pencil fa-fw text-muted"></i> 
+                  Account No.
+                </a>
+                <a class="list-group-item" href>
+                  <span class="infostyle"><input type="text" class="form-control h5 m-b-xs editinput" ng-model="bank.account_type" /></span>
+                  <i class="fa fa-eye fa-fw text-muted"></i> 
+                  Account Type
+                </a>
+              </div>        
+            </div>
+          </form>
+        </div>
+      </div>   
+    </div>   
+
+</div>
+</div>

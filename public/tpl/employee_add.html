@@ -1,0 +1,194 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Add New Employee</h1>
+</div>
+<div class="wrapper-md" ng-controller="AddEmployeeFormController">
+  <tabset class="tab-container" ng-init="steps={percent:0, step1:true, step2:false, step3:false, step4:false}">
+    <tab heading="Step 1" active="steps.step1" select="steps.percent=0">
+      <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+      <h4>Basic Information</h4>
+      <form name="step1" class="form-validation">
+        <p>Name:</p>
+        <input type="text" name="name" placeholder="Name" class="form-control" ng-model="employee.name" required ng-change="step1.name.$valid ? (steps.percent=5) : (steps.percent=0)">
+        <p class="m-t">Email:</p>
+        <input type="email" name="email" placeholder="name@company.com" class="form-control" ng-model="employee.email" required ng-change="step1.name.$valid && step1.email.$valid ? (steps.percent=10) : (steps.percent=5)">
+        <p class="m-t">Employee Id:</p>
+        <input type="text" name="empid" placeholder="Emp0001" class="form-control" ng-model="employee.username" required>
+        <div class="m-t m-b">
+          <button type="submit" ng-disabled="step1.$invalid" class="btn btn-default btn-rounded" ng-click="steps.step2=true">Next</button>
+        </div>
+      </form>
+    </tab>
+    <tab heading="Step 2" disabled="step1.$invalid" active="steps.step2" select="steps.percent=20">
+      <h4>Personal Information</h4>
+      <form name="step2" class="form-validation">
+        <p class="m-b">Continue the next step</p>
+        <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+        <p>Your Father's Name:</p>
+        <input type="text" name="fathername" class="form-control" ng-model="employee.personal_info.fathers_name" >
+        <p class="m-t">Your Mother's Name:</p>
+        <input type="text" name="mothername" class="form-control" ng-model="employee.personal_info.mothers_name" >
+        <p class="m-t">Your Spouse's Name:</p>
+        <input type="text" name="spousename" class="form-control" ng-model="employee.personal_info.spouse_name" >
+        <p class="m-t">Your DOB:</p>
+         <div ng-controller="DatepickerDemoCtrl">
+            <div class="input-group">
+              <input type="text" name="employee.personal_info.dob" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-model="employee.personal_info.dob" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+              </div>
+          </div>
+        <p class="m-t">Your Contact Number:</p>
+        <input type="number" name="contact" class="form-control" maxlength="10" ng-model="employee.personal_info.contact_number" >
+        <p class="m-t">Your Emergency Contact:</p>
+        <input type="number" name="emergencyno" class="form-control" maxlength="10" ng-model="employee.personal_info.emergency_contact" >
+        <p class="m-t">Your Alternate Email:</p>
+        <input type="email" name="emailid" class="form-control" ng-model="employee.personal_info.alternate_email" >
+        <p class="m-t">Your Blood Group:</p>
+        <input type="text" name="bloodgrp" class="form-control" ng-model="employee.personal_info.blood_group" >
+        <div class="row">
+          <div class="col-sm-6">
+            <p class="m-t">Your Permanent Addr:</p>
+            <textarea name="peraddr" class="form-control" ng-model="employee.personal_info.permanent_addr"></textarea>
+          </div>
+          <div class="col-sm-6">
+            <p class="m-t">Your Present Addr:</p>
+            <textarea name="preaddr" class="form-control" ng-model="employee.personal_info.present_addr"></textarea>
+          </div>
+        </div>
+        <div class="m-t m-b">
+          <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step1=true">Prev</button>
+          <button type="submit" ng-disabled="step2.$invalid" class="btn btn-default btn-rounded" ng-click="steps.step3=true">Next</button>
+        </div>
+      </form>
+    </tab>
+    <tab heading="Step 3" disabled="step1.$invalid || step2.$invalid" active="steps.step3" select="steps.percent=35">    
+      <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+      <h4>Employee Identity</h4>
+      <form name="step3" class="form-validation">
+      <p>Identity Type:</p>            
+        <select name="idtype" class="form-control m-b" ng-init="identity.identity_type = empIdentityType.value" ng-model="identity.identity_type" ng-options="option.value as option.name for option in empIdentityType"> 
+        </select>        
+        <p class="m-t">Name on {{identity.identity_type}}:</p>
+        <input type="text" name="idname" class="form-control" ng-model="identity.name_on_identity" >
+        <p class="m-t">{{identity.identity_type}} No:</p>
+        <input type="text" name="idnumber" class="form-control" ng-model="identity.identity_no" >
+        <div ng-if='identity.identity_type == "Driving Licence"'>
+          <p class="m-t">Expiry Date:</p>
+          <div ng-controller="DatepickerDemoCtrl">
+              <div class="input-group">
+                <input type="text" name="expirydate" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-model="identity.expiry_date" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+          </div> 
+        </div>      
+      <div class="m-t m-b">
+      <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step2=true">Prev</button>
+      <button type="button"  ng-disabled="step3.$invalid" class="btn btn-default btn-rounded" ng-click="steps.step4=true">Next</button>
+    </div>     
+    </form>     
+  </tab>
+  <tab heading="Step 4" disabled="step1.$invalid || step2.$invalid || step3.$invalid" active="steps.step4" select="steps.percent=50">      
+    <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+    <h4>Joining Details</h4>
+    <form name="step4" class="form-validation">
+      <p>Date of Joining</p>        
+      <div ng-controller="DatepickerDemoCtrl">
+          <div class="input-group">
+            <input type="text" name="employee.joining_details.doj" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-model="employee.joining_details.doj" required/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </div>
+      </div> 
+      <p class="m-t">Date of Confirmation:</p>
+      <div ng-controller="DatepickerDemoCtrl">
+          <div class="input-group">
+            <input type="text" name="employee.joining_details.doc" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-model="employee.joining_details.doc" required/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </div>
+      </div> 
+      <div class="m-t m-b">
+       <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step3=true">Prev</button>
+        <button type="button"  ng-disabled="step4.$invalid" class="btn btn-default btn-rounded" ng-click="steps.step5=true">Next</button>      
+    </div>     
+    </form>     
+  </tab>
+  <tab heading="Step 5" disabled="step1.$invalid || step2.$invalid || step3.$invalid || step4.$invalid" active="steps.step5" select="steps.percent=65">      
+      <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+      <h4>Bank Details</h4>
+      <form name="step5" class="form-validation">
+      <div class="bankform" id="bankDetails0">
+        <p>Bank Name:</p>            
+        <select name="bankname" class="form-control m-b" ng-init="bank_details[0].bank_name = bankNames[0].value" ng-model="bank_details[0].bank_name" ng-options="option.value as option.name for option in bankNames" required> 
+        </select>  
+        <p class="m-t">Address:</p>
+        <textarea name="bankaddr" class="form-control" ng-model="bank_details[0].address" required></textarea>
+        <p class="m-t">IFSC Code:</p>
+        <input type="text" name="ifsc" class="form-control" ng-model="bank_details[0].ifsc_code" required>
+        <p class="m-t">Account No.:</p>
+        <input type="number" name="bankaccno" class="form-control" ng-model="bank_details[0].account_no" required>
+        <p class="m-t">Account Type:</p>
+        <select name="bankacctype" class="form-control m-b" ng-init="bank_details[0].account_type = bankAccountType[0].value" ng-model="bank_details[0].account_type" ng-options="option.value as option.name for option in bankAccountType" required> 
+        </select>
+        <label class="i-checks m-t">
+          <input type="radio" name="IsprimaryRadio" id="IsprimaryRadio0" value="option0" checked>        
+          <i></i>
+          Is Primary
+        </label>
+      </div>
+      <div id="space-for-buttons"></div>
+    <div class="m-t">
+      <addbuttonsbutton></addbuttonsbutton>            
+    </div>
+    <div class="m-t m-b">
+      <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step4=true">Prev</button>
+      <button type="button"  ng-disabled="step3.$invalid" class="btn btn-default btn-rounded" ng-click="steps.step6=true">Next</button>     
+    </div>     
+    </form>     
+  </tab>
+  <tab heading="Step 6"  select="steps.percent=80">    
+      <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+      <h4 class="m-b-md">Employee History</h4>
+      <form name="step6" class="form-validation">
+        <div ng-controller="CategoryCtrl"> 
+          <div ng-repeat="category in categories">
+            
+            <input type="hidden" ng-model="category._id">
+            <p ng-model="categories[$index].cat" class="pull-left w-md">{{category.name}}:</p>
+            <select class="form-control m-b pull-left w-md" ng-init="categories[$index].subcat=category.values[0].name" ng-model="categories[$index].subcat" ng-options="subcategory.name for subcategory in category.values"> 
+            <option>--choose {{category.name}}--</option>              
+            </select>
+            <div ng-controller="DatepickerDemoCtrl">
+              <div class="input-group pull-left w-md margin-lr">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-model="categories[$index].datefrom" placeholder="choose date from" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+            <div ng-controller="DatepickerDemoCtrl">
+              <div class="input-group w-md">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-model="categories[$index].dateto" placeholder="choose date to" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div> 
+
+            <div class="clear"></div>
+          </div>
+        </div>
+      <div class="m-t-lg m-b">
+        <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step5=true">Prev</button>
+        <button type="button" class="btn btn-default btn-rounded" ng-click="submitValues()">Finish</button>
+    </div>     
+    </form>     
+  </tab>
+
+</tabset>
+</div>

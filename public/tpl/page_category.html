@@ -1,0 +1,103 @@
+
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="CategoryCtrl">
+  <div class="col w-md bg-light dk b-r bg-auto bg-auto-left">
+    <div class="wrapper" id="email-menu">
+      <div class="wrapper">Categories</div>
+      <ul class="nav nav-pills nav-stacked nav-sm">
+        <li ng-repeat="category in categories" ui-sref-active="active">
+          <a  class="" ng-click="loadCategoryValues($index)" ng-hide="editEnable" ng-dblclick="editEnable=!editEnable;">
+            <i class="fa fa-fw fa-circle text-muted pull-left" color="{{colors[$index%colors.length]}}" label-color ></i>
+            {{category.name}}
+            <span class="pull-right"> 
+              <i ng-click="editEnable=!editEnable; newName=category.name; " stop-event class="fa fa-edit text-info"></i>
+              <i ng-click="deleteCategory($index)" stop-event class="fa fa-trash-o text-danger"></i>
+            </span>
+          </a>
+          <span ng-show="editEnable">
+            <input ng-model="newName">
+            <a href ng-click="category.name=newName; saveCategoryName($index); editEnable=!editEnable; "><i class="fa fa-save text-success"></i></a>
+            <a href ng-click="editEnable=!editEnable"><i class="fa fa-times text-info"></i></a>
+          </span>
+        </li>
+      </ul>
+      <div class="wrapper">
+        <form name="category" ng-submit="addCategory()">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" ng-model="newCategory.name" placeholder="New Category" required>
+            <span class="input-group-btn">
+              <button class="btn btn-sm btn-default" type="submit" ng-disabled="category.$invalid">Add</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{categories[ind].name}}
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped b-t b-l b-light b-l-3x b-l-{{colornames[ind%colornames.length]}}">
+          <thead>
+            <tr>
+              <th>Value</th>
+              <th style="width:30px;">Active</th>
+              <th style="width:30px;">Edit</th>
+              <th style="width:30px;">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="value in categories[ind].values" class="b-l-3x">
+              <td>
+                <div ng-hide="editorEnabled" ng-dblclick="editorEnabled=!editorEnabled;">
+                  {{value.name}}
+                </div>
+                <div ng-show="editorEnabled">
+                  <input ng-model="value.name">
+                  <a href ng-click="editorEnabled=!editorEnabled; saveCategoryValue(value._id, value.name)"><i class="fa fa-save text-info"></i></a>
+                </div>
+              </td>
+              <td>
+                <a href ng-class="{active:value.isActive}" ui-toggle-class ng-click="updateCategoryValueStatus(value._id, !value.isActive)"><i class="fa fa-check-square-o text-success text-active"></i><i class="fa fa-square-o text-danger text"></i></a>
+              </td>
+              <td><a href="#" ng-click="editorEnabled=!editorEnabled"><i class="fa fa-edit text-info"></i></a></td>
+              <td><a href ng-click="removeCategoryValue(value._id)"><i class="fa fa-trash-o text-danger"></i></a></td>
+            </tr>
+            <tr ng-if="categories[ind].values.length <= 0">
+              <td class="text-center">No data found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <footer class="panel-footer">
+        <div class="row">
+          <div class="col-sm-4 hidden-xs">
+            <form name="categoryValue" ng-submit="addCategoryValue()">
+              <div class="input-group">
+                <input type="text" class="form-control input-sm" ng-model="newCategoryValue.name" placeholder="New {{categories[ind].name}} Value" required>
+                <span class="input-group-btn">
+                  <button class="btn btn-sm btn-default" type="submit" ng-disabled="categoryValue.$invalid">Add</button>
+                </span>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-4 text-center">
+            <!-- <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> -->
+          </div>
+          <div class="col-sm-4 text-right text-center-xs">                
+<!--             <ul class="pagination pagination-sm m-t-none m-b-none">
+              <li><a href><i class="fa fa-chevron-left"></i></a></li>
+              <li><a href>1</a></li>
+              <li><a href>2</a></li>
+              <li><a href>3</a></li>
+              <li><a href>4</a></li>
+              <li><a href>5</a></li>
+              <li><a href><i class="fa fa-chevron-right"></i></a></li>
+            </ul> -->
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
