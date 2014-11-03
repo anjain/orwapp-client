@@ -376,8 +376,20 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.submitValues = function(){ 
       console.log(' save ');        
       console.log($scope.test); 
-      
-    }
+      // Try to create
+     /* $http.post('/api/v1/signup', {user: $scope.user})
+      .then(function(response) {
+        if ( !response.data.employee ) {
+          $scope.authError = response;
+        }else{
+          $state.go('app.dashboard');
+        }
+      }, function(x) {
+        console.log(x);
+        $scope.authError = 'Server Error';
+      });*/
+    };
+    
 
     $scope.saveQuestion = function(){ 
       console.log(' save Question ');        
@@ -385,127 +397,6 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       
     }
 
-  }])
+  }]);
 
 
-.controller('CategoryCtrl', ['$scope', '$state', '$http', '_', function($scope, $state, $http, _) {
-  $scope.colors = ['#7266ba', '#23b7e5', '#27c24c', '#fad733', '#f05050', '#e8eff0', '#3a3f51', '#1c2b36'];
-  $scope.colornames = [ 'primary', 'info', 'success', 'warning', 'danger', 'light', 'dark', 'black'];
-  
-  function loadCategories () {
-    $http.get('/getCategories').success(function (data) {
-      if(data)
-        $scope.categories = data;
-        $scope.loadCategoryValues(0);
-    })
-    .error(function (err) {
-      console.log(err);
-    });
-  }
-  loadCategories();
-  $scope.loadCategoryValues = function (ind) {
-    $scope.ind = ind;
-    $scope.categoryId = $scope.categories[ind]._id;
-    // $scope.categoryName = $scope.categories[ind].name;
-    // $scope.categoryValues = $scope.categories[ind].values;
-  };
-
-  $scope.addCategory = function(){
-    $http.post('/addCategory', {catName: $scope.newCategory.name}).success(function (data) {
-      if(data) {
-        console.log(data);
-        $scope.categories.push(data);
-        $scope.newCategory.name = '';
-      }
-    })
-    .error(function (err) {
-      console.log(err);
-    })
-  }
-
-  $scope.deleteCategory = function(ind){
-    if(confirm("It will remove category '"+$scope.categories[ind].name+"'. Is it ok?")){
-      $http.post('/deleteCategory', {catId: $scope.categories[ind]._id}).success(function (data) {
-        if(data) {
-          $scope.categories = _.without($scope.categories, $scope.categories[ind]);
-        }
-      })
-      .error(function (err) {
-        console.log(err);
-      })
-    }
-  }
-
-  $scope.saveCategoryName = function (ind) {
-    $http.post('/updateCategory', {catId: $scope.categories[ind]._id, newCatName: $scope.categories[ind].name}).success(function (data) {
-      if(data) {
-        console.log(data);
-      }
-    })
-    .error(function (err) {
-      console.log(err);
-    })
-    
-  }
-
-  function updateCategoryValueArray (data) {
-    for (var i = 0; i < $scope.categories.length; i++) {
-      if($scope.categories[i]._id == data._id)
-        $scope.categories[i].values = data.values;
-    };
-  }
-
-  $scope.addCategoryValue = function(){
-    $http.post('/addCategoryValues', {catId: $scope.categoryId, catValues: { name: $scope.newCategoryValue.name, isActive: true}}).success(function (data) {
-      if(data) {
-        updateCategoryValueArray(data);
-        $scope.newCategoryValue.name = '';
-      }
-    })
-    .error(function (err) {
-      console.log(err);
-    })
-  }
-
-  $scope.updateCategoryValueStatus = function (id, status) {
-    $http.post('/updateCategoryValueStatus', {catId: $scope.categoryId, catValue:{id: id, newStatus: status}})
-    .success(function (data) {
-        updateCategoryValueArray(data);
-    })
-    .error(function (err) {
-      console.log(err);
-    })
-  }
-
-  $scope.saveCategoryValue = function (id, value) {
-    $http.post('/updateCategoryValueName', {catId: $scope.categoryId, catValue:{id: id, newName: value}})
-    .success(function (data) {
-        updateCategoryValueArray(data);
-    })
-    .error(function (err) {
-      console.log(err);
-    })
-  }
-
-  $scope.removeCategoryValue = function (id) {
-    if(confirm("It will remove this value. Is it ok?")){
-      $http.post('/removeCategoryValue', {catId: $scope.categoryId, catValue:{id: id}})
-      .success(function (data) {
-          updateCategoryValueArray(data);
-      })
-      .error(function (err) {
-        console.log(err);
-      })
-    }
-  }
-
-  $scope.labelClass = function(label) {
-    return {
-      'b-l-info': angular.lowercase(label) === 'angular',
-      'b-l-primary': angular.lowercase(label) === 'bootstrap',
-      'b-l-warning': angular.lowercase(label) === 'client',
-      'b-l-success': angular.lowercase(label) === 'work'      
-    };
-  };
-
-}]);
