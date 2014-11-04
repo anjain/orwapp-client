@@ -12,17 +12,17 @@
 		            </div>
 		            <div class="panel-body">
 		              <div class="form-group">
-		                <input type="text" class="form-control" ng-model="test.name" placeholder="Test Name" ng-required="true" >
+		                <input type="text" class="form-control" ng-model="test.title" placeholder="Test Name" ng-required="true" >
 		              </div>
 		              <div class="form-group">
-		                <input type="text" class="form-control" placeholder="Test ID" ng-model="test.id" >
+		                <input type="text" class="form-control" placeholder="Test ID" ng-model="test.test_id" >
 		              </div>
 		              <div class="form-group">
 			            <textarea class="form-control" rows="6" placeholder="Descriptive Text" ng-model="test.description"></textarea>
 			          </div>
 		            <footer class="panel-footer text-right bg-light lter">
 		              <button type="submit" class="btn btn-primary" ng-disabled="AddTestForm.$invalid" ng-click="submitValues()">Save</button>
-		              <a href="" class="btn btn-default">Delete</a>
+		              <!-- <a href="" class="btn btn-default">Delete</a> -->
 		            </footer>
 		          </div>
 		        </form>
@@ -30,9 +30,8 @@
     	</div>
 
     	<div class="row">
-    		<div class="col-sm-12">
-    			<input type="button" class="btn btn-default btn-primary m-l" ng-hide="addquestion" ng-click="addquestion = true" value="Add Question" />    			
-    			<form name="questionform">
+    		<div class="col-sm-12">    			   			
+    			<!-- <form name="questionForm" class="form-validation">
     				<div ng-show="addquestion" class="col-sm-12">
 			        	<legend>Question 1</legend>
 			            <div class="list-group list-group-sm">
@@ -46,22 +45,21 @@
 			              	<label>Alternative answers</label>
 			              </div>
 			              <div class="list-group-item wrapper-md">
-			              	<div class='padder-v' ng-hide="removechoice1" removechoice1="false">
-				              	<input type="text" placeholder="Alternative 1" class="form-control w-xxxl app-aside m-r" ng-model="question.ans1" required />
-				                <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+			              	<div class='padder-v' ng-hide="removechoice0" removechoice0="false" ng-repeat="answers_attr in answers">
+				              	<input type="text" placeholder="Alternative " class="form-control w-xxxl app-aside m-r" ng-model="answers_attr.description" required />	
+				              	<input type="radio" name="correct" id="optionsRadios0" ng-model="answers_attr.correct" ng-value="1" ng-click="getSelectans($index)">
 	                			Correct Answer
-	                			<a href="" ng-click="removechoice1 = !removechoice1" id="del1" class="default m-l">Remove</a><br>
+	                			<a href="" ng-click="removechoice0 = !removechoice0" id="del0" class="default m-l"  >Remove</a><br> 
                 			</div>
-                			<div id="space-for-buttons"></div>						    
-						    <addbuttonsbutton></addbuttonsbutton>
-			              </div>
-			              <input type="button" class="btn btn-default btn-primary pull-right m-t" ng-click="saveQuestion()" value="Save Question" />
-			              
+                			<a href='' ng-click="addAlternatives()" >Add Alternative</a>                			
+			              </div>			              	              
+			              <input type="button" class="btn btn-default btn-primary pull-right m-t" ng-click="saveQuestion()" value="Save Question" />			              
 			            </div> 
-			        </div>        
-		          
-		        </form>
-
+			        </div>     
+		        </form> -->
+		        <div id="space-for-buttons"></div>						    
+				<addbuttonsbutton></addbuttonsbutton>
+		       <!--  <input type="button" class="btn btn-default btn-primary m-l" ng-click="addquestion = true" value="Add Question" />  -->
 
     		</div>
     	</div>

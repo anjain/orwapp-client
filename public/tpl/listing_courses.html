@@ -1,10 +1,10 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">Listing Courses</h1>
 </div>
-<div class="wrapper-md">
+<div class="wrapper-md" ng-controller="CoursesCtrl">
 <ul class="list-group">
-	<li ng-repeat="course in courseslists" class="m-l wrapper-xs">
-		<a ui-sref="app.courses.detail({testId:course.id})" ng-click="getTestById($index)">{{course.name}}</a>
+	<li ng-repeat="test in tests" class="m-l wrapper-xs">
+		<a ui-sref="app.courses.detail({testId:test.id})" ng-click="getTestById($index)">{{test.title}}</a>
 	</li>
 </ul>
 <div class="navbar-md navbar-form">

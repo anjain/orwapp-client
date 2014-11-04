@@ -245,17 +245,17 @@ angular.module('app.directives', ['ui.load'])
   .directive("addbuttonsbutton", function(){
     return {
       restrict: "E",
-      template: "<a href='' addbanks >Add Alternative</a>"
+      template: "<input type='button' addmore class='btn btn-default btn-primary m-l' ng-click='addquestion = true' value='Add Question' /> "
     }
   })
 
-  .directive("addbanks", function($compile){
+  .directive("addmore", function($compile){
     return function(scope, element, attrs){
       element.bind("click", function(){
         scope.count++;
         angular.element(document.getElementById('space-for-buttons'))
           .append($compile(  
-              "<div class='padder-v' ng-hide='removechoice"+scope.count+"' removechoice"+scope.count+"='false'><input type='text' placeholder='Alternative"+scope.count+"' class='form-control w-xxxl app-aside m-r' ng-model='question.ans"+scope.count+"' required /><input type='radio' name='optionsRadios"+scope.count+"' id='optionsRadios"+scope.count+"' value='option"+scope.count+"'>Correct Answer<a href='' ng-click='removechoice"+scope.count+" = !removechoice"+scope.count+"' id='del"+scope.count+"' class='default m-l'>Remove</a><br></div>"  
+              "<div><form name='questionForm' class='form-validation'><div ng-show='addquestion' class='col-sm-12'><legend>Question 1</legend><div class='list-group list-group-sm'><div class='list-group-item'><input type='text' placeholder='Question Title' class='form-control' ng-model='question.title' required></div><div class='list-group-item'><textarea placeholder='Question Text' class='form-control' ng-model='question.text' ></textarea></div><div class='list-group-item'><label>Alternative answers</label></div><div class='list-group-item wrapper-md'><div class='padder-v' ng-hide='removechoice0' removechoice0='false' ng-repeat='answers_attr in answers'><input type='text' placeholder='Alternative ' class='form-control w-xxxl app-aside m-r' ng-model='answers_attr.description' required /><input type='radio' name='correct' id='optionsRadios0' ng-model='answers_attr.correct' ng-value='true' ng-click='getSelectans($index)'>Correct Answer<a href='' ng-click='removechoice0 = !removechoice0' id='del0' class='default m-l'  >Remove</a><br></div><a href='' ng-click='addAlternatives()' >Add Alternative</a></div><input type='button' class='btn btn-default btn-primary pull-right m-t' ng-click='saveQuestion()' value='Save Question' /></div></div></form></div>"  
           )(scope));
       });
     };

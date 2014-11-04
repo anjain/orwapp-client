@@ -56,8 +56,7 @@ var app = angular.module('app', [
             //courses
             .state('app.courses', {
                 url: '/courses',
-                template: '<div ui-view></div>',
-                controller: 'CoursesCtrl'
+                template: '<div ui-view></div>'                
             })
             .state('app.courses.listing', {
                 url: '/listingcourses',

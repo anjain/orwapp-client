@@ -179,7 +179,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     };
   }])
 
-// Flot Chart controller 
+  // Flot Chart controller 
   .controller('FlotChartDemoCtrl', ['$scope', function($scope) {
     $scope.d = [ [1,6.5],[2,6.5],[3,7],[4,8],[5,7.5],[6,7],[7,6.8],[8,7],[9,7.2],[10,7],[11,6.8],[12,7] ];
 
@@ -235,9 +235,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
 
  //courses controller
-  .controller('CoursesCtrl', ['$scope', function($scope) {
-    $scope.filterscat = {};
-    $scope.filtersbrand = {};
+  .controller('CoursesCtrl', ['$scope', '$http', '$state', '$stateParams', function ($scope, $http, $state, $stateParams) {
+    $scope.tests = {};
     $scope.courseslists = [
       {
         id:"1",
@@ -358,43 +357,85 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       }
     ];   
 
-
-    $scope.getTestById = function(ind) {               
+    $http.get('http://6b752eee.ngrok.com/practice_tests').success(function (data) {
+      if(data)
+        $scope.tests = data;
+        console.log(data);
+        //$scope.loadCategoryValues(0);
+      })
+      .error(function (err) {
+        console.log(err);
+      });
+    
+    /*$scope.getTestById = function(ind) {               
       $scope.ind = ind;        
       $scope.productDetail = $scope.courseslists[ind];
      // console.log($scope.productDetail);
     }
-
+*/
   }]) 
 
   .controller('AddTestCtrl',['$scope', '$http', '$state', '$stateParams', function ($scope, $http, $state, $stateParams){
     $scope.test = {};
     $scope.AddTestForm = {};
-    $scope.count = 1;
+    $scope.QuestionForm = {};
+    $scope.count = 0;
     $scope.question={};
+    $scope.answers_attr={};
+    $scope.answers=[{description:'',correct:0}];
+    $scope.question.answers_attributes=[];
+    $scope.test_id = {};
         
     $scope.submitValues = function(){ 
       console.log(' save ');        
       console.log($scope.test); 
-      // Try to create
-     /* $http.post('/api/v1/signup', {user: $scope.user})
+      
+      $http.post('http://6b752eee.ngrok.com/practice_tests', {practice_test: $scope.test})
       .then(function(response) {
-        if ( !response.data.employee ) {
+        if ( !response.data.success ) {
           $scope.authError = response;
         }else{
-          $state.go('app.dashboard');
+          console.log(response);
+          $scope.test_id = response.data.test_id;
+          alert("Test added successfully");
+          /*$scope.test = {};
+          $state.go('app.courses.new');*/
         }
       }, function(x) {
         console.log(x);
         $scope.authError = 'Server Error';
-      });*/
-    };
+      });
+    }
     
+    $scope.addAlternatives = function(){
+      $scope.answers.push({description:'',correct:0});
+    }
+
+    $scope.getSelectans = function(ind){
+      angular.forEach($scope.answers,function(values,indexs){
+        values.correct=0;
+      });
+      $scope.answers[ind].correct = 1;      
+    }
 
     $scope.saveQuestion = function(){ 
-      console.log(' save Question ');        
-      console.log($scope.question); 
+      $scope.question.practice_test_id = $scope.test_id ;      
+      $scope.question.answers_attributes = $scope.answers;    
+      console.log($scope.question);      
       
+      $http.post('http://6b752eee.ngrok.com/practice_tests/'+$scope.test_id+'/questions', {question: $scope.question})
+      .then(function(response) {
+        if ( !response.data.success ) {
+          $scope.authError = response;
+        }else{
+          console.log(response);
+          alert("Question added successfully");
+          //$state.go('app.courses.listing');
+        }
+      }, function(x) {
+        console.log(x);
+        $scope.authError = 'Server Error';
+      });
     }
 
   }]);
