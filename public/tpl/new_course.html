@@ -31,7 +31,11 @@
 
     	<div class="row">
     		<div class="col-sm-12">  
-    			<div ng-repeat="ques in question">		   			
+    		  <div class="tab" ng-init="" >
+                <div class="tab-header text-center">
+                    <span ng-class="{active: selectedtab.$index}" ng-repeat="ques in question" ng-click="selectedtab = {$index : true}">Question {{$index+1}}</span>
+                </div>
+                <div class="tab-body" ng-repeat="ques in question" ng-show="selectedtab.$index" ng-init="">
     			<form name="questionForm" class="form-validation">
     				<div class="col-sm-12">
 			        	<legend>Question {{$index+1}}</legend>

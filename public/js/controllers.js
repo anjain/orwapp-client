@@ -12,7 +12,7 @@ angular.module('app.controllers', [ ])
 
       // config
       $scope.app = {
-        name: 'Stabenfldt',
+        name: 'orwapp-hse',
         version: '1.0.0',
         // for chart colors
         color: {
