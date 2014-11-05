@@ -30,36 +30,36 @@
     	</div>
 
     	<div class="row">
-    		<div class="col-sm-12">    			   			
-    			<!-- <form name="questionForm" class="form-validation">
-    				<div ng-show="addquestion" class="col-sm-12">
-			        	<legend>Question 1</legend>
+    		<div class="col-sm-12">  
+    			<div ng-repeat="ques in question">		   			
+    			<form name="questionForm" class="form-validation">
+    				<div class="col-sm-12">
+			        	<legend>Question {{$index+1}}</legend>
 			            <div class="list-group list-group-sm">
 			              <div class="list-group-item">
-			                <input type="text" placeholder="Question Title" class="form-control" ng-model="question.title" required>
+			                <input type="text" placeholder="Question Title" class="form-control" ng-model="ques.title" required>
 			              </div>
 			              <div class="list-group-item">
-			                <textarea placeholder="Question Text" class="form-control" ng-model="question.text" required></textarea>
+			                <textarea placeholder="Question Text" class="form-control" ng-model="ques.text" required></textarea>
 			              </div>
 			              <div class="list-group-item">
 			              	<label>Alternative answers</label>
 			              </div>
 			              <div class="list-group-item wrapper-md">
-			              	<div class='padder-v' ng-hide="removechoice0" removechoice0="false" ng-repeat="answers_attr in answers">
+			              	<div class='padder-v' ng-hide="removechoice0" removechoice0="false" ng-repeat="answers_attr in ques.answers_attributes">
 				              	<input type="text" placeholder="Alternative " class="form-control w-xxxl app-aside m-r" ng-model="answers_attr.description" required />	
-				              	<input type="radio" name="correct" id="optionsRadios0" ng-model="answers_attr.correct" ng-value="1" ng-click="getSelectans($index)">
+				              	<input type="radio" name="correct" id="optionsRadios0" ng-model="answers_attr.correct" ng-value="1" ng-click="getSelectans($parent.$index,$index)">
 	                			Correct Answer
 	                			<a href="" ng-click="removechoice0 = !removechoice0" id="del0" class="default m-l"  >Remove</a><br> 
                 			</div>
-                			<a href='' ng-click="addAlternatives()" >Add Alternative</a>                			
+                			<a href='' ng-click="addAlternatives($index)" >Add Alternative</a>                			
 			              </div>			              	              
-			              <input type="button" class="btn btn-default btn-primary pull-right m-t" ng-click="saveQuestion()" value="Save Question" />			              
+			              <input type="button" class="btn btn-default btn-primary pull-right m-t" ng-click="saveQuestion($index)" value="Save Question" />			              
 			            </div> 
-			        </div>     
-		        </form> -->
-		        <div id="space-for-buttons"></div>						    
-				<addbuttonsbutton></addbuttonsbutton>
-		       <!--  <input type="button" class="btn btn-default btn-primary m-l" ng-click="addquestion = true" value="Add Question" />  -->
+			        </div>   			        
+		        </form>
+		    	</div>
+		        <input type="button" class="btn btn-default btn-primary m-l" ng-click="addQuestions()" value="Add Question" /> 
 
     		</div>
     	</div>

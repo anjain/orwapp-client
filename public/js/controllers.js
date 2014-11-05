@@ -366,13 +366,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       .error(function (err) {
         console.log(err);
       });
-    
-    /*$scope.getTestById = function(ind) {               
-      $scope.ind = ind;        
-      $scope.productDetail = $scope.courseslists[ind];
-     // console.log($scope.productDetail);
-    }
-*/
+
   }]) 
 
   .controller('AddTestCtrl',['$scope', '$http', '$state', '$stateParams', function ($scope, $http, $state, $stateParams){
@@ -380,10 +374,9 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     $scope.AddTestForm = {};
     $scope.QuestionForm = {};
     $scope.count = 0;
-    $scope.question={};
+    $scope.question=[];
+    $scope.ques={};
     $scope.answers_attr={};
-    $scope.answers=[{description:'',correct:0}];
-    $scope.question.answers_attributes=[];
     $scope.test_id = {};
         
     $scope.submitValues = function(){ 
@@ -407,23 +400,27 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
     }
     
-    $scope.addAlternatives = function(){
-      $scope.answers.push({description:'',correct:0});
+    $scope.addAlternatives = function(ind){
+      $scope.question[ind].answers_attributes.push({description:'',correct:0});
     }
 
-    $scope.getSelectans = function(ind){
-      angular.forEach($scope.answers,function(values,indexs){
+    $scope.addQuestions = function(){
+      $scope.question.push({practice_test_id:'',title:'',text:'',answers_attributes:[{description:'',correct:0}]});
+    }
+
+    $scope.getSelectans = function(parent_ind,ind){
+      angular.forEach($scope.question[parent_ind].answers_attributes,function(values,indexs){
         values.correct=0;
       });
-      $scope.answers[ind].correct = 1;      
+      $scope.question[parent_ind].answers_attributes[ind].correct = 1;      
     }
 
-    $scope.saveQuestion = function(){ 
-      $scope.question.practice_test_id = $scope.test_id ;      
-      $scope.question.answers_attributes = $scope.answers;    
-      console.log($scope.question);      
+    $scope.saveQuestion = function(ind){      
+      console.log($scope.question);
+      $scope.question[ind].practice_test_id = $scope.test_id
+      console.log($scope.question[ind]);   
       
-      $http.post('http://6b752eee.ngrok.com/practice_tests/'+$scope.test_id+'/questions', {question: $scope.question})
+      $http.post('http://6b752eee.ngrok.com/practice_tests/'+$scope.test_id+'/questions', {question: $scope.question[ind]})
       .then(function(response) {
         if ( !response.data.success ) {
           $scope.authError = response;
