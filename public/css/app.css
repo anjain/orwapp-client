@@ -21,14 +21,14 @@ body {
   margin: 0;
 }
 a {
-  color: #428BCA; /*#363f44;*/
-  text-decoration: underline;
+  color: #363f44;
+  text-decoration: none;
   cursor: pointer;
 }
 a:hover,
 a:focus {
   color: #141719;
-  text-decoration: underline;
+  text-decoration: none;
 }
 label {
   font-weight: normal;
